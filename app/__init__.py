@@ -7,10 +7,15 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 #from flask_cors import CORS
+import os
 
 app = Flask(__name__)
-app.config()
+devDatabasePath = "sqlite:///" + \
+    os.path.join(os.path.expanduser('~'), 'repos', 'collective', 'collective.db')
+app.config['SQLALCHEMY_DATABASE_URI']=devDatabasePath
+app.app_context().push()
 sqlDB = SQLAlchemy(app)
+sqlDB.create_all()
 
 #CORS(app)
 

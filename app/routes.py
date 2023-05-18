@@ -1,5 +1,6 @@
 from flask import request, render_template
-from app import app
+from app import app, sqlDB
+from app.models import Client
 from app.tempModel import clients, shouldBackup  # temporary data models
 
 @app.get("/status")
@@ -30,6 +31,8 @@ def register():
         
     try:
         clients[cName] = req
+        sqlDB.session.add(Client(clientName=cName))
+        sqlDB.session.commit()
     except:
         return {"msg": "ERROR_CLIENT_DATA_MALFORMED"}, 400
 
