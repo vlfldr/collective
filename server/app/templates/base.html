@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        {% if title %}
+        <title>{{ title }} - Collective</title>
+        {% else %}
+        <title>Collective Backup</title>
+        {% endif %}
+        <meta name="description" content="Borg backup client/server application">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <link rel="stylesheet" href=""> -->
+    </head>
+    <body>
+        <!-- navbar? -->
+        {% block content %}{% endblock %}
+    </body>
+</html>

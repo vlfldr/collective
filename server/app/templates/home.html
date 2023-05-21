@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Collective Backup</h1>
+    <h2>Clients</h2>
+    {% for c in clients %}
+    <div>
+        <h3>{{ c.clientName }}</h3>
+        <div><ul>
+            <li>Backup schedule: {{ c.backupDay }}</li>
+            <li>Backup time: {{ c.backupTime }}</li>
+            <li>Last backup: {{ c.lastBackup or 'Never' }}</li>
+        </ul>
+    </div>
+    {% endfor %}
+{% endblock %}

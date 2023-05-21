@@ -3,6 +3,7 @@ from datetime import datetime   # all dates in UTC. converted in client to user 
 
 class Client(db.Model):
     clientID = db.Column(db.Integer, primary_key=True)
+    directories = db.relationship('Directory', backref='client', lazy=True)
 
     clientName  = db.Column(db.String(128), index=True, unique=True)
     backupDay   = db.Column(db.String(10))
