@@ -2,7 +2,7 @@ FROM python:3.11.3-slim
 
 # temporary dockerfile for development
 
-ENV FLASK_APP=collective.py
+ENV FLASK_APP=server.py
 ENV FLASK_DEBUG=true
 
 EXPOSE 9222
