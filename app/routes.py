@@ -1,7 +1,7 @@
 from flask import request, render_template
-from app import app, sqlDB
+from app import app, db
 from app.models import Client
-from app.tempModel import clients, shouldBackup  # temporary data models
+from datetime import datetime
 
 @app.get("/status")
 def getStatus():
@@ -10,9 +10,9 @@ def getStatus():
 
     flagBackup, registered = False, False
 
-    if cName in clients:
+    if db.session.execute(db.select(Client).filter_by(clientName=cName)).scalar():
         registered = True
-        flagBackup = shouldBackup(clients[cName])
+        #flagBackup = shouldBackup(clients[cName])
 
     statusData = {
         "clientName": cName,
@@ -26,16 +26,19 @@ def register():
     req = request.get_json()
     cName = req['clientName']
 
-    if cName in clients:
-        return {"msg": "ERROR_NAME_NOT_UNIQUE"}, 400    # 400 = bad request
-        
+    # throw 400 bad request if client name not unique
+    if db.session.execute(db.select(Client).filter_by(clientName=cName)).scalar():
+        return {"msg": "ERROR_NAME_NOT_UNIQUE"}, 400
+    
+    # TODO: convert req['backupTime'] to datetime obj
+    
     try:
-        clients[cName] = req
-        sqlDB.session.add(Client(clientName=cName))
-        sqlDB.session.commit()
+        db.session.add(Client(
+                clientName=cName, backupDay=req['backupDay']))
+        db.session.commit()
     except:
         return {"msg": "ERROR_CLIENT_DATA_MALFORMED"}, 400
-
+        
     return {"msg": "SUCCESS"}, 201  # 201 = success/created
 
 @app.get("/getconfig")
@@ -43,11 +46,11 @@ def getConfig():
     req = request.get_json()
     cName = req['clientName']
 
-    if cName not in clients:
+    clnt = db.one_or_404(db.select(Client).filter_by(clientName=cName))
+
+    if not clnt:
         return {"msg": "ERROR_CLIENT_NOT_REGISTERED"}, 400
     
-    clnt = clients[cName]
-
     return {
         "clientName": cName, 
         "backupScript": render_template('backup.sh', clientName=cName, clientData=clnt)
@@ -62,14 +65,19 @@ def unregister():
     req = request.get_json()
     cName = req['clientName']
 
-    if cName not in clients:
-        return {"msg": "ERROR_CLIENT_NOT_REGISTERED"}, 400    # 400 = bad request
+    # abort and return 404 if user not registered
+    clnt = db.one_or_404(db.select(Client).filter_by(clientName=cName))
 
-    clients.pop(cName) 
+    try:
+        db.session.delete(clnt)
+        db.session.commit()
+    except:
+        return {"msg": "DATABASE_ERROR"}, 500
 
     return {"msg": "SUCCESS"}
 
 @app.get('/')
 def home():
-    return render_template('home.html', clients=clients)
+    return render_template('home.html', 
+            clients=db.session.execute(db.select(Client)).scalars())
 

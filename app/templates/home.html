@@ -3,9 +3,9 @@
 {% block content %}
     <h1>Collective Backup</h1>
     <h2>Clients</h2>
-    {% for cName, cData in clients.items() %}
+    {% for cData in clients %}
     <div>
-        <h3>{{ cName }}</h3>
+        <h3>{{ cData.clientName }}</h3>
         <div><ul>
             <li>Backup schedule: {{ cData.backupDay }}</li>
             <li>Backup time: {{ cData.backupTime }}</li>
