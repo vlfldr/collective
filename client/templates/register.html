@@ -1,31 +1,39 @@
 {% extends "base.html" %}
 
+{% block header %}
+    <div class="header">
+        <h1>Collective Backup - Register</h1>
+    </div>
+{% endblock %}
+
 {% block content %}
-    <h1>Collective Backup - {{ client.clientName or 'Register'}}</h1>
     <form method="post" id="register-form">
-        <div>
-        <label for="clientName">Client name:</label>
-        <input type="text" name="clientName" id="clientName" required>
+        <div class="form-floating">
+            <input type="text" class="form-control" name="clientName" placeholder="" id="clientName" required>
+            <label for="clientName">Client name</label>
         </div>
-        <div>
-        <label for="backupDay">Backup frequency:</label>
-        <select name="backupDay" id="backupDay">
-            <option value="hourly">Hourly</option>
-            <option selected value="daily">Daily</option>
-            <option value="weekly">Weekly</option>
-            <option value="monthly">Monthly</option>
-        </select>
+        <div class="form-floating">
+            <select class="form-select" name="backupDay" id="backupDay">
+                <option value="hourly">Hourly</option>
+                <option selected value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+            </select>
+            <label for="backupDay">Backup frequency</label>
         </div>
-        <div>
-        <label for="backupTime">Backup time:</label>
-        <input type="time" name="backupTime" id="backupTime" required>
+        <div class="form-floating">
+            <input class="form-control" type="time" name="backupTime" placeholder="" id="backupTime" required>
+            <label for="backupTime">Backup time</label>
         </div>
-        <div>
-        <label for="backupDirs">Folders to back up:</label>
-        <input type="text" name="backupDirs" id="backupDirs" required>
-        <!-- <input type="file" name="backupDirs" 
-            webkitdirectory directory multiple/> -->
+        <div class="form-floating">
+            <input class="form-control" placeholder="" type="text" name="backupDirs" id="backupDirs" required>
+            <label for="backupDirs">Folders to back up</label>
+            <!-- <input type="file" name="backupDirs" 
+                webkitdirectory directory multiple/> -->
         </div>
-        <input class="btn" type="submit" value="Register">
+        <button class="btn btn-primary" type="submit" value="Register">
+            <!-- <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> -->
+            Register
+        </button>
     </form>
 {% endblock %}

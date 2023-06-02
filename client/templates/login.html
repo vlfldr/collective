@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block header %}
+    <div class="header">
+        <h1>Collective Backup - Login</h1>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <form method="post" id="login-form">
+        <div>
+            <label for="serverAddress">Server address:</label>
+            <input type="url" name="serverAddress" id="serverAddress" required>
+        </div>
+
+        <div>
+            <label for="clientName">Client name:</label>
+            <input type="text" name="clientName" id="clientName" required>
+        </div>
+
+        <div>
+            <label for="clientPassword">Password:</label>
+            <input type="password" name="clientPassword" id="clientPassword" required>
+        </div>
+        
+        <input class="btn" type="submit" value="Login">
+    </form>
+{% endblock %}
