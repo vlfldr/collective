@@ -7,8 +7,12 @@
 {% endblock %}
 
 {% block content %}
-    <div class="landing-form">
-        <a href="/login" >Log In</a>
-        <a href="/register" >Register</a>
-    </div>
+<div class="container p-0 d-flex flex-column">
+    <a href="/" class="m-3 fs-5 navbar-brand">
+        <img src={{ url_for('static', filename='logo.png') }} alt="Collective" width="30">
+        Collective Backup
+    </a>
+    <a class="btn btn-primary" href="/login" >Log In</a>
+    <a class="btn mt-3 mb-3 btn-primary" href="/register" >Register</a>
+</div>
 {% endblock %}

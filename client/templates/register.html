@@ -7,12 +7,13 @@
 {% endblock %}
 
 {% block content %}
+    <h2 class="mt-3">Register</h2>
     <form method="post" id="register-form">
-        <div class="form-floating">
+        <div class="form-floating m-3">
             <input type="text" class="form-control" name="clientName" placeholder="" id="clientName" required>
             <label for="clientName">Client name</label>
         </div>
-        <div class="form-floating">
+        <div class="form-floating m-3">
             <select class="form-select" name="backupDay" id="backupDay">
                 <option value="hourly">Hourly</option>
                 <option selected value="daily">Daily</option>
@@ -21,17 +22,19 @@
             </select>
             <label for="backupDay">Backup frequency</label>
         </div>
-        <div class="form-floating">
+        <div class="form-floating m-3">
             <input class="form-control" type="time" name="backupTime" placeholder="" id="backupTime" required>
             <label for="backupTime">Backup time</label>
         </div>
-        <div class="form-floating">
-            <input class="form-control" placeholder="" type="text" name="backupDirs" id="backupDirs" required>
-            <label for="backupDirs">Folders to back up</label>
-            <!-- <input type="file" name="backupDirs" 
-                webkitdirectory directory multiple/> -->
+        <div class="form-floating m-3">
+            <textarea class="form-control h-100" placeholder="" rows="5" name="backupDirs" id="backupDirs"></textarea>
+            <label for="backupDirs">Folders to back up. One per line - supports globbing</label>
         </div>
-        <button class="btn btn-primary" type="submit" value="Register">
+        <div class="form-floating m-3">
+            <textarea class="form-control h-100" placeholder="" rows="5" name="excludeDirs" id="excludeDirs"></textarea>
+            <label for="excludeDirs">Folders to exclude</label>
+        </div>
+        <button class="btn btn-primary m-3 mt-0" type="submit" value="Register">
             <!-- <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> -->
             Register
         </button>

@@ -41,7 +41,7 @@ def register():
     
     
     # TODO: convert req['backupTime'] to datetime obj
-    dateStringToUTC(req['backupTime'])
+    #dateStringToUTC(req['backupTime'])
 
 
     try:
