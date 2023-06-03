@@ -4,6 +4,7 @@ FROM python:3.11.3-slim
 
 ENV FLASK_APP=server.py
 ENV FLASK_DEBUG=true
+# TODO: JWT_SECRET_KEY env var from .env file
 
 EXPOSE 9222
 WORKDIR /app

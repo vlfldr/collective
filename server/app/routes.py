@@ -1,7 +1,8 @@
 from flask import request, render_template
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from datetime import datetime, timezone
 from app import app, db
 from app.models import Client, Directory
-from datetime import datetime, timezone
 
 # input format: Monday 11:00PM
 # how to get next monday?
@@ -13,9 +14,12 @@ def dateStringToUTC(dateString):
     print(dt)
 
 @app.get("/status")
+@jwt_required()
 def getStatus():
     req = request.get_json()
     cName = req['clientName']
+
+    # currentUser = get_jwt_identity()
 
     flagBackup, registered = False, False
 
@@ -61,7 +65,7 @@ def register():
     except:
         return {"msg": "DATABASE_ERROR"}, 500
         
-    return {"msg": "SUCCESS"}, 201  # 201 = success/created
+    return {"msg": "SUCCESS", "access_token": create_access_token(identity=cName)}, 201  # 201 = success/created
 
 @app.get("/getconfig")
 def getConfig():

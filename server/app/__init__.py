@@ -1,16 +1,28 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
 import os
+import string
+import random
 
+from flask_jwt_extended import JWTManager
 
-# devDatabasePath = 'sqlite:////app/collective.db'      # docker
+load_dotenv()
+app = Flask(__name__)
+
+# database
 devDatabasePath = "sqlite:///" + \
     os.path.join(os.path.expanduser('~'), 'repos', 'collective', 'collective.db')
-
-app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']=devDatabasePath
+
 db = SQLAlchemy(app)
 app.app_context().push()
+
+# authorization
+if os.getenv('JWT_SECRET_KEY') == None:
+    print('Fatal error: JWT_SECRET_KEY environment variable not set. Please review the Dockerfile or create a .env file next to server.py.')
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
+jwt = JWTManager(app)
 
 from app import routes, models
 
